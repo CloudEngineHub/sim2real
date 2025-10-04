@@ -19,19 +19,10 @@ observation:
       noise_std: 0.015
     prev_actions:
       steps: 3
-    ref_contact_pos_b:
-      noise_std: 0.01
-      object_name: box
-      contact_target_pos_offset:
-      - - 0.0
-        - -0.15
-        - 0.8
-      - - 0.0
-        - 0.15
-        - 0.8
   command:
     ref_body_pos_future_local:
-      motion_duration_second: 15.84
+      motion_duration_second: 12.040000000000001
+      motion_path: data/motion/g1/multi_motion_0726/roll_ball_amass
       future_steps: &id001
       - 1
       - 2
@@ -80,21 +71,58 @@ observation:
       - left_elbow_joint
       - right_elbow_joint
       root_body_name: pelvis
-    ref_motion_phase:
-      motion_duration_second: 15.84
+    ref_joint_pos_future:
+      motion_duration_second: 12.040000000000001
+      motion_path: data/motion/g1/multi_motion_0726/roll_ball_amass
       future_steps: *id001
       body_names: *id002
       joint_names: *id003
       root_body_name: pelvis
+    ref_motion_phase:
+      motion_duration_second: 12.040000000000001
+      motion_path: data/motion/g1/multi_motion_0726/roll_ball_amass
+      future_steps: *id001
+      body_names: *id002
+      joint_names: *id003
+      root_body_name: pelvis
+  object:
+    object_xy_b:
+      noise_std: 0.01
+      episodic_noise_std: 0.0
+      object_name: ball
+      root_body_name: pelvis
+    object_heading_b:
+      noise_std: 0.01
+      episodic_noise_std: 0.0
+      object_name: ball
+      root_body_name: pelvis
+    ref_contact_pos_b:
+      noise_std: 0.01
+      episodic_noise_std: 0.02
+      yaw_only: true
+      object_name: ball
+      contact_target_pos_offset:
+      - - 0.1
+        - 0.0
+        - 0.0
+      - - 0.1
+        - 0.0
+        - 0.0
+      root_body_name: pelvis
 action_scale:
-  waist_yaw_joint: 0.25
-  waist_roll_joint: 0.25
-  waist_pitch_joint: 0.25
-  .*hip.*: 0.25
-  .*knee.*: 0.25
-  .*ankle.*: 0.25
-  .*shoulder.*: 0.25
-  .*elbow_joint: 0.25
+  .*_hip_yaw_joint: 0.55
+  .*_hip_roll_joint: 0.35
+  .*_hip_pitch_joint: 0.55
+  .*_knee_joint: 0.35
+  .*_ankle_pitch_joint: 0.44
+  .*_ankle_roll_joint: 0.44
+  waist_roll_joint: 0.44
+  waist_pitch_joint: 0.44
+  waist_yaw_joint: 0.55
+  .*_shoulder_pitch_joint: 0.44
+  .*_shoulder_roll_joint: 0.44
+  .*_shoulder_yaw_joint: 0.44
+  .*_elbow_joint: 0.44
 isaac_joint_names:
 - left_hip_pitch_joint
 - right_hip_pitch_joint
@@ -126,26 +154,48 @@ isaac_joint_names:
 - left_wrist_yaw_joint
 - right_wrist_yaw_joint
 joint_kp:
-  .*_hip_.*_joint: 100.0
-  .*_knee_joint: 200.0
-  .*_ankle_.*_joint: 20.0
-  waist_.*_joint: 200.0
-  .*_shoulder_.*_joint: 40.0
-  .*_elbow_joint: 40.0
-  .*_wrist_.*_joint: 4.0
+  .*_hip_pitch_joint: 40.17923847137318
+  .*_hip_roll_joint: 99.09842777666113
+  .*_hip_yaw_joint: 40.17923847137318
+  .*_knee_joint: 99.09842777666113
+  .*_ankle_pitch_joint: 28.50124619574858
+  .*_ankle_roll_joint: 28.50124619574858
+  waist_roll_joint: 28.50124619574858
+  waist_pitch_joint: 28.50124619574858
+  waist_yaw_joint: 40.17923847137318
+  .*_shoulder_pitch_joint: 14.25062309787429
+  .*_shoulder_roll_joint: 14.25062309787429
+  .*_shoulder_yaw_joint: 14.25062309787429
+  .*_elbow_joint: 14.25062309787429
+  .*_wrist_roll_joint: 14.25062309787429
+  .*_wrist_pitch_joint: 16.77832748089279
+  .*_wrist_yaw_joint: 16.77832748089279
 joint_kd:
-  .*_hip_.*_joint: 2.0
-  .*_knee_joint: 4.0
-  .*_ankle_.*_joint: 0.2
-  waist_.*_joint: 4.0
-  .*_shoulder_.*_joint: 5.0
-  .*_elbow_joint: 5.0
-  .*_wrist_.*_joint: 0.5
+  .*_hip_pitch_joint: 2.5578897650279457
+  .*_hip_roll_joint: 6.3088018534966395
+  .*_hip_yaw_joint: 2.5578897650279457
+  .*_knee_joint: 6.3088018534966395
+  .*_ankle_pitch_joint: 1.814445686584846
+  .*_ankle_roll_joint: 1.814445686584846
+  waist_roll_joint: 1.814445686584846
+  waist_pitch_joint: 1.814445686584846
+  waist_yaw_joint: 2.5578897650279457
+  .*_shoulder_pitch_joint: 0.907222843292423
+  .*_shoulder_roll_joint: 0.907222843292423
+  .*_shoulder_yaw_joint: 0.907222843292423
+  .*_elbow_joint: 0.907222843292423
+  .*_wrist_roll_joint: 0.907222843292423
+  .*_wrist_pitch_joint: 1.06814150219
+  .*_wrist_yaw_joint: 1.06814150219
 default_joint_pos:
-  .*_hip_pitch_joint: -0.15
-  .*_knee_joint: 0.3
-  .*_ankle_pitch_joint: -0.15
-  .*_elbow_joint: 0.8
+  .*_hip_pitch_joint: -0.312
+  .*_knee_joint: 0.669
+  .*_ankle_pitch_joint: -0.363
+  .*_elbow_joint: 0.6
+  left_shoulder_roll_joint: 0.2
+  left_shoulder_pitch_joint: 0.2
+  right_shoulder_roll_joint: -0.2
+  right_shoulder_pitch_joint: 0.2
 policy_joint_names:
 - left_hip_pitch_joint
 - right_hip_pitch_joint
