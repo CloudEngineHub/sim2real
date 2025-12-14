@@ -24,12 +24,13 @@ HDMI is a framework that enables humanoid robots to acquire diverse whole-body i
 
 ```bash
 uv sync
+source .venv/bin/activate
 ```
 
 If you prefer conda, create a Python 3.12 environment and `pip install -r requirements.txt`.
 
 ## Sim2Sim
-The sim2sim setup runs a MuJoCo environment and a reinforcement-learning policy as two Python processes that communicate over ZMQ. After both processes are up, press `]` in the policy terminal to start, then press `9` in the MuJoCo viewer to disable the virtual gantry.
+The sim2sim setup runs a MuJoCo environment and a reinforcement-learning policy as two Python processes that communicate over ZMQ. After both processes are up, press `]` in the policy terminal to start, then press `9` in the MuJoCo viewer to disable the virtual gantry immediately.
 
 ### Example Scenarios
 **Move suitcase**
