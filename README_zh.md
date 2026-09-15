@@ -31,7 +31,7 @@ uv sync --extra inference-cpu
 uv run sim2real/sim_env/base_sim.py --robot g1
 uv run sim2real/rl_policy/tracking.py \
   --robot g1 \
-  --policy_config checkpoints/mimic-lite/roa/policy.yaml
+  --policy_config checkpoints/mimic-lite/v1_1/policy.yaml
 ```
 
 两个进程都启动后，在 policy 终端按 `]` 开始跟踪，然后打开 `base_sim.py` 打印出来的 mjviser URL。虚拟 gantry / elastic band 的开关和长度在 viewer UI 里调。
@@ -52,6 +52,7 @@ uv run sim2real/rl_policy/tracking.py \
 
 | Policy family | Config path(s) | 说明 |
 | --- | --- | --- |
+| Mimic Lite v1.1 | `checkpoints/mimic-lite/v1_1/policy.yaml` | 使用 student-only reference-motion noise 的 8x8192 PPO-ROA student。 |
 | MimicLite-ROA | `checkpoints/mimic-lite/roa/policy.yaml` | 最新 16x16384 PPO-ROA student release。 |
 | MimicLite-PPO | `checkpoints/mimic-lite/ppo/policy.yaml` | 最新 16x16384 Huge PPO release。 |
 | HEFT | `checkpoints/heft` | PMG 和 compliance 两个版本。 |
@@ -66,6 +67,21 @@ uv run sim2real/rl_policy/tracking.py \
 | Humanoid-GPT | `checkpoints/humanoid-gpt/policy.yaml` | Humanoid-GPT policy wrapper。 |
 | TWIST2 | `checkpoints/twist2/policy.yaml` | TWIST2 policy wrapper。 |
 
+### Mimic Lite v1.1
+
+Mimic Lite v1.1 保持 teacher 和 reward target 为 clean，只在 student command 上加入 reference-motion noise；部署输入保持 clean。完整 Train / Adapt / Finetune 使用 8x8192 environments、4000 / 1000 / 2000 updates，实测训练量为 50.106 GPU hours。
+
+| MotionDecode metric | Locomotion-80 | Manipulation-48 | Ground-60 | Dance-40 |
+| --- | ---: | ---: | ---: | ---: |
+| Progress | 99.320% | 93.619% | 65.542% | 55.837% |
+| Tracking Return | 1.9126 | 1.7905 | 0.9198 | 0.9811 |
+| Body position | 25.11 mm | 28.25 mm | 144.66 mm | 43.13 mm |
+| Body orientation | 0.08142 rad | 0.09452 rad | 0.55465 rad | 0.16783 rad |
+| Wrist position | 22.15 mm | 23.57 mm | n/a | n/a |
+| Wrist orientation | 0.07745 rad | 0.09997 rad | n/a | n/a |
+
+可从共享 [sim2real artifacts](https://drive.google.com/drive/folders/1lrPyiiy7anyG3P4wHNIQQQlydboLPd9e) 文件夹下载 `checkpoints/mimic-lite/v1_1`。完整结果见 [Motion Tracking Leaderboard](https://egalahad.github.io/sim2real/zh-Hans/leaderboard)。
+
 ![统一的跨代码库动作跟踪评测](assets/mimic_lite_cross_codebase_tracking_eval.png)
 
 图中使用 14 个 policy variants 的全新结果，数据集为 LAFAN-40、PHUMA-30
@@ -76,9 +92,9 @@ root XY 位移为 1.5--3.0 m。
 其定义为最远 future reference frame 对应的时间。所有数值均采用统一的
 50 Hz reference-motion contract。
 
-| Policy | MimicLite-ROA | MimicLite-PPO | HEFT | HoloMotion | SONIC | SONIC low-latency | SONIC v1.1 | GRIT v0.0.1 | ScaleBFM XL | ScaleBFM M | BFM-Zero | TeleopIT | Humanoid-GPT | TWIST2 |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Motion-lookahead latency | 0.08 s | 0.08 s | 0.12 s | 0.20 s | 0.90 s | 0.18 s | 0.90 s | 0.26 s | 0.10 s | 0.10 s | 0.12 s | 0.00 s | 0.02 s | 0.00 s |
+| Policy | Mimic Lite v1.1 | MimicLite-ROA | MimicLite-PPO | HEFT | HoloMotion | SONIC | SONIC low-latency | SONIC v1.1 | GRIT v0.0.1 | ScaleBFM XL | ScaleBFM M | BFM-Zero | TeleopIT | Humanoid-GPT | TWIST2 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Motion-lookahead latency | 0.08 s | 0.08 s | 0.08 s | 0.12 s | 0.20 s | 0.90 s | 0.18 s | 0.90 s | 0.26 s | 0.10 s | 0.10 s | 0.12 s | 0.00 s | 0.02 s | 0.00 s |
 
 ## 真机环境
 

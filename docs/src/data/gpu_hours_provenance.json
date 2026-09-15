@@ -1,4 +1,20 @@
 {
+  "mimic_lite_v1_1": {
+    "display_name": "Mimic Lite v1.1",
+    "value_gpu_hours": 50.10579994295982,
+    "status": "measured",
+    "confidence": "high",
+    "policy_family_match": "exact v1.1 release",
+    "authoritative_sources": [
+      {
+        "kind": "checked_in_training_metrics",
+        "url": "https://github.com/EGalahad/sim2real#mimic-lite-v11",
+        "fact": "The release README records the exact 8-GPU Train, Adapt, and Finetune schedule and measured GPU-hour total."
+      }
+    ],
+    "derivation": "Sum of performance/iter_time over 4,000 Train, 1,000 Adapt, and 2,000 Finetune updates, multiplied by eight GPUs: 35.3323468342 + 2.8734385364 + 11.9000145723 = 50.1057999430 GPU hours.",
+    "notes": "Cache warmup, smoke tests, export, and evaluation are excluded from training GPU hours."
+  },
   "mimic_lite_ppo": {
     "display_name": "MimicLite-PPO",
     "value_gpu_hours": 92.321,

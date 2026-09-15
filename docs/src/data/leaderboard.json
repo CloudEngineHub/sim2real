@@ -1,5 +1,93 @@
 [
   {
+    "key": "mimic_lite_v1_1",
+    "name": "Mimic Lite v1.1",
+    "url": "https://github.com/EGalahad/sim2real#mimic-lite-v11",
+    "metrics": {
+      "bodyPos": {
+        "datasets": {
+          "locomotion": 25.107132992707193,
+          "manipulation": 28.248803418440122,
+          "ground": 144.66204425940913,
+          "dance": 43.127327132970095,
+          "lafan": null,
+          "phuma": null,
+          "root90": null
+        }
+      },
+      "bodyOri": {
+        "datasets": {
+          "locomotion": 0.08142041168175637,
+          "manipulation": 0.09451700444333255,
+          "ground": 0.5546499120692412,
+          "dance": 0.1678300669416785,
+          "lafan": null,
+          "phuma": null,
+          "root90": null
+        }
+      },
+      "globalRoot": {
+        "datasets": {
+          "locomotion": 0.303422980196774,
+          "manipulation": null,
+          "ground": null,
+          "dance": null,
+          "lafan": null,
+          "phuma": null,
+          "root90": null
+        }
+      },
+      "gpuHours": {
+        "mean": 50.10579994295982,
+        "sourceUrl": "https://github.com/EGalahad/sim2real#mimic-lite-v11"
+      },
+      "wristPos": {
+        "datasets": {
+          "locomotion": 22.154506749939173,
+          "manipulation": 23.569638394595433,
+          "ground": null,
+          "dance": null,
+          "lafan": null,
+          "phuma": null,
+          "root90": null
+        }
+      },
+      "wristOri": {
+        "datasets": {
+          "locomotion": 0.07745016748085617,
+          "manipulation": 0.09997126250527799,
+          "ground": null,
+          "dance": null,
+          "lafan": null,
+          "phuma": null,
+          "root90": null
+        }
+      },
+      "trackingReturn": {
+        "datasets": {
+          "locomotion": 1.9125970749883259,
+          "manipulation": 1.7904578315870652,
+          "ground": 0.9197657218991876,
+          "dance": 0.9811033053037711,
+          "lafan": null,
+          "phuma": null,
+          "root90": null
+        }
+      },
+      "progress": {
+        "datasets": {
+          "locomotion": 99.32033527696792,
+          "manipulation": 93.61858974358975,
+          "ground": 65.5418433385652,
+          "dance": 55.83687444369809,
+          "lafan": null,
+          "phuma": null,
+          "root90": null
+        }
+      }
+    }
+  },
+  {
     "key": "mimic_lite_roa",
     "name": "MimicLite-ROA",
     "url": "https://github.com/Roboparty/MimicLite",
