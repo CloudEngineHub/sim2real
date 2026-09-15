@@ -65,7 +65,7 @@ const copy = {
 };
 
 const defaultPolicies = new Set([
-  'mimic_lite_roa', 'mimic_lite_ppo', 'sonic_g1', 'heft', 'holomotion',
+  'mimic_lite_v1_1', 'mimic_lite_roa', 'mimic_lite_ppo', 'sonic_g1', 'heft', 'holomotion',
 ]);
 const defaultMetrics = new Set<MetricKey>([
   'bodyPos', 'globalRoot', 'gpuHours', 'wristPos', 'trackingReturn',
@@ -75,7 +75,7 @@ const defaultDatasets = new Set<DatasetKey>([
 ]);
 const palette = [
   '#f1d36b', '#2f6236', '#5e9d5d', '#9eb875', '#d9826b', '#4f86a8', '#8b6bb1',
-  '#d6a14d', '#4d8b7f', '#b96b71', '#7397bf', '#af8c72', '#7c9e52', '#6f6f6f',
+  '#d6a14d', '#4d8b7f', '#b96b71', '#7397bf', '#af8c72', '#7c9e52', '#6f6f6f', '#8a5a44',
 ];
 
 function metricValue(row: Row, key: MetricKey, selectedDatasets: Set<DatasetKey>): number | null {

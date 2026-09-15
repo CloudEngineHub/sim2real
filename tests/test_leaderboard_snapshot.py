@@ -20,12 +20,12 @@ def test_leaderboard_snapshot_preserves_legacy_and_adds_motiondecode() -> None:
         }
     page = json.loads((ROOT / "docs/src/data/leaderboard.json").read_text())
 
-    assert len(source) == 14
-    assert len(page) == 14
-    assert {"mimic_lite_ppo", "mimic_lite_roa", "grit_v0_0_1"} <= {
+    assert len(source) == 15
+    assert len(page) == 15
+    assert {"mimic_lite_v1_1", "mimic_lite_ppo", "mimic_lite_roa", "grit_v0_0_1"} <= {
         row["key"] for row in page
     }
-    assert {"mimic_lite_huge", "mimic_lite_base", "mimic_lite_v1_1", "mimic_lite_small", "g1_roa_huge_student_20260814"}.isdisjoint(
+    assert {"mimic_lite_huge", "mimic_lite_base", "mimic_lite_small", "g1_roa_huge_student_20260814"}.isdisjoint(
         row["key"] for row in page
     )
 
@@ -50,10 +50,14 @@ def test_leaderboard_snapshot_preserves_legacy_and_adds_motiondecode() -> None:
             row["metrics"]["bodyPos"]["datasets"]["locomotion"],
             float(motiondecode[row["key"], "locomotion"]["body_pos_m"]) * 1000.0,
         )
-        assert math.isclose(
-            row["metrics"]["bodyPos"]["datasets"]["lafan"],
-            float(source[row["key"]]["lafan40_local_mm"]),
-        )
+        legacy_lafan = source[row["key"]]["lafan40_local_mm"]
+        if legacy_lafan:
+            assert math.isclose(
+                row["metrics"]["bodyPos"]["datasets"]["lafan"],
+                float(legacy_lafan),
+            )
+        else:
+            assert row["metrics"]["bodyPos"]["datasets"]["lafan"] is None
 
     roa = next(row for row in page if row["key"] == "mimic_lite_roa")
     assert all(
@@ -67,6 +71,15 @@ def test_leaderboard_snapshot_preserves_legacy_and_adds_motiondecode() -> None:
     )
     assert roa["metrics"]["gpuHours"]["mean"] is not None
     assert roa["metrics"]["gpuHours"]["sourceUrl"].startswith("https://")
+
+    v1_1 = next(row for row in page if row["key"] == "mimic_lite_v1_1")
+    assert v1_1["name"] == "Mimic Lite v1.1"
+    assert math.isclose(v1_1["metrics"]["progress"]["datasets"]["locomotion"], 99.32033527696792)
+    assert math.isclose(v1_1["metrics"]["progress"]["datasets"]["ground"], 65.5418433385652)
+    assert math.isclose(v1_1["metrics"]["progress"]["datasets"]["dance"], 55.83687444369809)
+    assert math.isclose(v1_1["metrics"]["wristOri"]["datasets"]["manipulation"], 0.09997126250527799)
+    assert math.isclose(v1_1["metrics"]["gpuHours"]["mean"], 50.10579994295982)
+    assert all(v1_1["metrics"]["bodyPos"]["datasets"][split] is None for split in ("lafan", "phuma", "root90"))
 
     sonic = next(row for row in page if row["key"] == "sonic_g1")
     assert sonic["metrics"]["gpuHours"]["mean"] == 21000.0

@@ -12,6 +12,7 @@ METRICS = ROOT / "assets/mimic_lite_cross_codebase_tracking_eval.csv"
 MOTIONDECODE = ROOT / "assets/motiondecode_public_dataset_metrics.csv"
 OUTPUT = ROOT / "docs/src/data/leaderboard.json"
 LINKS = {
+    "mimic_lite_v1_1": "https://github.com/EGalahad/sim2real#mimic-lite-v11",
     "mimic_lite_ppo": "https://github.com/Roboparty/MimicLite",
     "mimic_lite_roa": "https://github.com/Roboparty/MimicLite",
     "scalebfm_m": "https://github.com/zengweishuai/ScaleBFM",
@@ -28,6 +29,7 @@ LINKS = {
     "grit_v0_0_1": "https://github.com/mrzuang/GRIT_teleop_deploy",
 }
 POLICY_ORDER = (
+    "mimic_lite_v1_1",
     "mimic_lite_roa",
     "mimic_lite_ppo",
     "heft",

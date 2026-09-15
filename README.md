@@ -31,7 +31,7 @@ Run offline motion tracking (sim2sim):
 ```bash
 uv run sim2real/sim_env/base_sim.py --robot g1
 uv run sim2real/rl_policy/tracking.py --robot g1 \
-  --policy_config checkpoints/mimic-lite/roa/policy.yaml \
+  --policy_config checkpoints/mimic-lite/v1_1/policy.yaml \
   --motion_path hf://elijahgalahad/any4hdmi-g1-lafan/motions/walk1_subject1.npz
 ```
 
@@ -53,6 +53,7 @@ Currently supported adapted / distributed checkpoint families:
 
 | Policy family | Config path(s) | Notes |
 | --- | --- | --- |
+| Mimic Lite v1.1 | `checkpoints/mimic-lite/v1_1/policy.yaml` | 8x8192 PPO-ROA student with student-only reference-motion noise. |
 | MimicLite-ROA | `checkpoints/mimic-lite/roa/policy.yaml` | Latest 16x16384 PPO-ROA student release. |
 | MimicLite-PPO | `checkpoints/mimic-lite/ppo/policy.yaml` | Latest 16x16384 Huge PPO release. |
 | HEFT | `checkpoints/heft` | PMG and compliance variants. |
@@ -67,15 +68,30 @@ Currently supported adapted / distributed checkpoint families:
 | Humanoid-GPT | `checkpoints/humanoid-gpt/policy.yaml` | Humanoid-GPT policy wrapper. |
 | TWIST2 | `checkpoints/twist2/policy.yaml` | TWIST2 policy wrapper. |
 
+### Mimic Lite v1.1
+
+Mimic Lite v1.1 keeps the teacher and reward target clean while adding reference-motion noise only to the student command. Deployed inputs remain clean. The full Train / Adapt / Finetune chain uses 8x8192 environments for 4000 / 1000 / 2000 updates and consumed 50.106 measured GPU hours.
+
+| MotionDecode metric | Locomotion-80 | Manipulation-48 | Ground-60 | Dance-40 |
+| --- | ---: | ---: | ---: | ---: |
+| Progress | 99.320% | 93.619% | 65.542% | 55.837% |
+| Tracking Return | 1.9126 | 1.7905 | 0.9198 | 0.9811 |
+| Body position | 25.11 mm | 28.25 mm | 144.66 mm | 43.13 mm |
+| Body orientation | 0.08142 rad | 0.09452 rad | 0.55465 rad | 0.16783 rad |
+| Wrist position | 22.15 mm | 23.57 mm | n/a | n/a |
+| Wrist orientation | 0.07745 rad | 0.09997 rad | n/a | n/a |
+
+Download `checkpoints/mimic-lite/v1_1` from the shared [sim2real artifacts](https://drive.google.com/drive/folders/1lrPyiiy7anyG3P4wHNIQQQlydboLPd9e) folder. Full results are on the [Motion Tracking Leaderboard](https://egalahad.github.io/sim2real/leaderboard).
+
 ![Unified cross-codebase tracking evaluation](assets/mimic_lite_cross_codebase_tracking_eval.png)
 
 For a fair comparison, we report the motion-lookahead latency required by each
 policy, defined by its furthest required future-reference frame. All values use
 the shared 50 Hz reference-motion contract.
 
-| Policy | MimicLite-ROA | MimicLite-PPO | HEFT | HoloMotion | SONIC | SONIC low-latency | SONIC v1.1 | GRIT v0.0.1 | ScaleBFM XL | ScaleBFM M | BFM-Zero | TeleopIT | Humanoid-GPT | TWIST2 |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Motion-lookahead latency | 0.08 s | 0.08 s | 0.12 s | 0.20 s | 0.90 s | 0.18 s | 0.90 s | 0.26 s | 0.10 s | 0.10 s | 0.12 s | 0.00 s | 0.02 s | 0.00 s |
+| Policy | Mimic Lite v1.1 | MimicLite-ROA | MimicLite-PPO | HEFT | HoloMotion | SONIC | SONIC low-latency | SONIC v1.1 | GRIT v0.0.1 | ScaleBFM XL | ScaleBFM M | BFM-Zero | TeleopIT | Humanoid-GPT | TWIST2 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Motion-lookahead latency | 0.08 s | 0.08 s | 0.08 s | 0.12 s | 0.20 s | 0.90 s | 0.18 s | 0.90 s | 0.26 s | 0.10 s | 0.10 s | 0.12 s | 0.00 s | 0.02 s | 0.00 s |
 
 ## Real-robot Environments
 
